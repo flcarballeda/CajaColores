@@ -22,6 +22,5 @@ public class MainActivity extends AppCompatActivity {
         int color = ((ColorDrawable) linear.getBackground()).getColor();
         if (this.negro == color) { return; }
         linear.setBackgroundColor(negro);
-        Log.d("MIAPP", "Asigno el color.");
     }
 }
