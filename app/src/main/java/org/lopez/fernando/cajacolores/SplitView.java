@@ -25,12 +25,12 @@ public class SplitView extends AppCompatActivity {
         LinearLayout hijo2 = new LinearLayout(this);
         if ( padre.getOrientation() == LinearLayout.VERTICAL) {
             Log.d("SplitView_dividir", "Vertical");
-//            android:layout_width="0dp"
-//            android:layout_height="match_parent"
-            LinearLayout.LayoutParams parametros = new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.MATCH_PARENT);
-//            android:layout_weight="1"
-            parametros.weight = 1;
+//        android:layout_width="match_parent"
+//        android:layout_height="0dp"
+//        android:layout_weight="1"
+            LinearLayout.LayoutParams parametros = new LinearLayout.LayoutParams( LinearLayout.LayoutParams.MATCH_PARENT, 0, 1F);
 
+//        android:orientation="horizontal"
             hijo1.setOrientation( LinearLayout.HORIZONTAL);
             hijo1.setLayoutParams( parametros);
 
@@ -38,12 +38,12 @@ public class SplitView extends AppCompatActivity {
             hijo2.setLayoutParams(parametros);
         } else {
             Log.d("SplitView_dividir", "Horizontal");
-//            android:layout_width="match_parent"
-//            android:layout_height="0dp"
-            LinearLayout.LayoutParams parametros = new LinearLayout.LayoutParams( LinearLayout.LayoutParams.MATCH_PARENT, 0);
+//            android:layout_width="0dp"
+//            android:layout_height="match_parent"
 //            android:layout_weight="1"
-            parametros.weight = 1;
+            LinearLayout.LayoutParams parametros = new LinearLayout.LayoutParams( 0, LinearLayout.LayoutParams.MATCH_PARENT, 1F);
 
+//        android:orientation="vertical"
             hijo1.setOrientation( LinearLayout.VERTICAL);
             hijo1.setLayoutParams( parametros);
 
@@ -62,13 +62,13 @@ public class SplitView extends AppCompatActivity {
         });
         hijo1.setBackgroundColor( ((ColorDrawable) padre.getBackground()).getColor());
         hijo2.setBackgroundColor( getResources().getColor( colores[ indexColor]));
+        hijo1.setVisibility( View.VISIBLE);
+        hijo2.setVisibility( View.VISIBLE);
         indexColor++;
         if( indexColor == colores.length) {
             indexColor = 0;
         }
         padre.addView( hijo1);
-        padre.addView( hijo2);
-//        padre.invalidate();
-        padre.requestLayout();
+//        padre.addView( hijo2);
     }
 }
