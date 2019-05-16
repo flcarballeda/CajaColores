@@ -28,7 +28,7 @@ public class SplitView extends AppCompatActivity {
 //        android:layout_width="match_parent"
 //        android:layout_height="0dp"
 //        android:layout_weight="1"
-            LinearLayout.LayoutParams parametros = new LinearLayout.LayoutParams( LinearLayout.LayoutParams.MATCH_PARENT, 0, 1F);
+            LinearLayout.LayoutParams parametros = new LinearLayout.LayoutParams( LinearLayout.LayoutParams.MATCH_PARENT, 10, 1F);
 
 //        android:orientation="horizontal"
             hijo1.setOrientation( LinearLayout.HORIZONTAL);
@@ -41,7 +41,7 @@ public class SplitView extends AppCompatActivity {
 //            android:layout_width="0dp"
 //            android:layout_height="match_parent"
 //            android:layout_weight="1"
-            LinearLayout.LayoutParams parametros = new LinearLayout.LayoutParams( 0, LinearLayout.LayoutParams.MATCH_PARENT, 1F);
+            LinearLayout.LayoutParams parametros = new LinearLayout.LayoutParams( 10, LinearLayout.LayoutParams.MATCH_PARENT, 1F);
 
 //        android:orientation="vertical"
             hijo1.setOrientation( LinearLayout.VERTICAL);
