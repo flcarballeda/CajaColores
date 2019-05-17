@@ -65,6 +65,10 @@ public class MainActivity extends AppCompatActivity {
         LinearLayout linear = (LinearLayout) view;
         int color = ((ColorDrawable) linear.getBackground()).getColor();
         if (this.negro == color) {
+            if (this.veces == 6) {
+                Toast toast = Toast.makeText( this, "Juego Terminado.", Toast.LENGTH_LONG);
+                toast.show();
+            }
             return;
         }
         linear.setBackgroundColor(negro);
