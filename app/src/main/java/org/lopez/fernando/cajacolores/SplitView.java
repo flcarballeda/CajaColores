@@ -5,6 +5,8 @@ import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.Toast;
@@ -22,9 +24,6 @@ public class SplitView extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_split_view);
-        Toast toast = Toast.makeText( this, "Pulsa para dividir la zona.", Toast.LENGTH_LONG);
-        toast.show();
-
     }
 
     private void salir() {
@@ -33,6 +32,17 @@ public class SplitView extends AppCompatActivity {
         } else {
             this.finish();
         }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        return super.onOptionsItemSelected(item);
     }
 
     public void dividir(View view) {
