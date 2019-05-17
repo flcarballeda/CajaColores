@@ -1,12 +1,9 @@
 package org.lopez.fernando.cajacolores;
 
-import android.content.Context;
-import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
 
@@ -14,17 +11,20 @@ import java.util.Random;
 
 public class SplitView extends AppCompatActivity {
 
-    private static int colores[] = { R.color.aguamarina, R.color.cian, R.color.dukeBlue, R.color.UCLABlue, R.color.verdeEsmeralda, R.color.black, R.color.white};
+    private static final int COLORES[] = { R.color.aguamarina, R.color.cian, R.color.dukeBlue, R.color.UCLABlue, R.color.verdeEsmeralda, R.color.black, R.color.white};
     private int indexColor = 0;
-    private Random r = new Random();
+    private static Random r = new Random();
 
+    // https://github.com/flcarballeda/CajaColores.git
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_split_view);
     }
+
     public void dividir(View view) {
-        LinearLayout padre = (LinearLayout)findViewById( view.getId());
+        LinearLayout padre = (LinearLayout)view;
+//        LinearLayout padre = (LinearLayout)findViewById( view.getId());
         LinearLayout hijo1 = new LinearLayout(this);
         hijo1.setId( newId());
         LinearLayout hijo2 = new LinearLayout(this);
@@ -67,16 +67,25 @@ public class SplitView extends AppCompatActivity {
             }
         });
         hijo1.setBackgroundColor( ((ColorDrawable) padre.getBackground()).getColor());
-        hijo2.setBackgroundColor( getResources().getColor( colores[ indexColor]));
+        hijo2.setBackgroundColor( getResources().getColor( COLORES[ indexColor]));
         hijo1.setVisibility( View.VISIBLE);
         hijo2.setVisibility( View.VISIBLE);
         indexColor++;
-        if( indexColor == colores.length) {
+        if( indexColor == COLORES.length) {
             indexColor = 0;
         }
         padre.addView( hijo1);
         padre.addView( hijo2);
     }
+
+    /**
+     * Es el ID calculado
+     * Va generando números aleatorios. Comprueba que el valor generado
+     * no coincide con un ID existente y si no existe devuelvo el nuevo
+     * valor.
+     *
+     * @return
+     */
     private int newId() {
         int resultado = -1;
         do {
