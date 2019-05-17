@@ -42,12 +42,15 @@ public class MainActivity extends AppCompatActivity {
             case R.id.version_original : {
                 Log.d(MYAPP, "Menú Original.");
                 // Lanzar la versión del Juego Original
-                // Ya estoy en ese juego.
+                Intent intent = new Intent(this, MainActivity.class);
+                this.finish();
+                startActivity(intent);
             } break;
             case R.id.version_dividir : {
                 Log.d(MYAPP, "Menú Dividir.");
                 // Lanzar la versión del Juego Dividir.
                 Intent intent = new Intent(this, SplitView.class);
+                this.finish();
                 startActivity(intent);
             } break;
             default: {
@@ -75,11 +78,6 @@ public class MainActivity extends AppCompatActivity {
             Log.d(MYAPP, mensaje);
             Toast toast = Toast.makeText( this, mensaje, Toast.LENGTH_LONG);
             toast.show();
-
-            Intent intent = new Intent(this, SplitView.class);
-            startActivity(intent);
-
-            salir();
         }
     }
 

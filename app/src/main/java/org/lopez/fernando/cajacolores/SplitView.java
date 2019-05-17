@@ -49,12 +49,15 @@ public class SplitView extends AppCompatActivity {
                 Log.d(SPLIT_VIEW_DIVIDIR, "Menú Original.");
                 // Lanzar la versión del Juego Original
                 Intent intent = new Intent(this, MainActivity.class);
+                this.finish();
                 startActivity(intent);
             } break;
             case R.id.version_dividir : {
                 Log.d(SPLIT_VIEW_DIVIDIR, "Menú Dividir.");
                 // Lanzar la versión del Juego Dividir.
-                // Ya estoy en ese juego.
+                Intent intent = new Intent(this, SplitView.class);
+                this.finish();
+                startActivity(intent);
             } break;
             default: {
                 Log.d(SPLIT_VIEW_DIVIDIR, String.format("Se ha recibido un ID desconocido: '%1$d'.", item.getItemId()));
