@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import java.util.Date;
 
@@ -23,7 +24,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         negro = getResources().getColor(R.color.black);
-        inicio = System.currentTimeMillis();
+        inicio = -1l;
     }
 
     public void cambiarColor(View view) {
@@ -33,10 +34,17 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
         linear.setBackgroundColor(negro);
+        if (-1 == inicio) {
+            inicio = System.currentTimeMillis();
+        }
         this.veces += 1;
         if (this.veces == 6) {
             long ahora = System.currentTimeMillis();
-            Log.d("MYAPP", Long.toString(ahora - inicio));
+            String mensaje = String.format( "Ha tardado %1$.3f segundos.", ((ahora - inicio) / 1000f));
+            Log.d("MYAPP", mensaje);
+            Toast toast = Toast.makeText( this, mensaje, Toast.LENGTH_LONG);
+            toast.show();
+
             Intent intent = new Intent(this, SplitView.class);
             startActivity(intent);
 

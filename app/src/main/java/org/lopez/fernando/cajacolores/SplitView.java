@@ -1,11 +1,13 @@
 package org.lopez.fernando.cajacolores;
 
 import android.graphics.drawable.ColorDrawable;
+import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import java.util.Random;
 
@@ -20,10 +22,26 @@ public class SplitView extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_split_view);
+        Toast toast = Toast.makeText( this, "Pulsa para dividir la zona.", Toast.LENGTH_LONG);
+        toast.show();
+
+    }
+
+    private void salir() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+            this.finishAffinity();
+        } else {
+            this.finish();
+        }
     }
 
     public void dividir(View view) {
         LinearLayout padre = (LinearLayout)view;
+        int size = Math.min( view.getWidth(), view.getHeight());
+        if (48 > size) {
+            salir();
+            return;
+        }
 //        LinearLayout padre = (LinearLayout)findViewById( view.getId());
         LinearLayout hijo1 = new LinearLayout(this);
         hijo1.setId( newId());
