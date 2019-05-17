@@ -1,5 +1,6 @@
 package org.lopez.fernando.cajacolores;
 
+import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
@@ -16,6 +17,7 @@ import java.util.Random;
 public class SplitView extends AppCompatActivity {
 
     private static final int COLORES[] = { R.color.aguamarina, R.color.cian, R.color.dukeBlue, R.color.UCLABlue, R.color.verdeEsmeralda, R.color.black, R.color.white};
+    public static final String SPLIT_VIEW_DIVIDIR = "SplitView_dividir";
     private int indexColor = 0;
     private static Random r = new Random();
 
@@ -42,6 +44,22 @@ public class SplitView extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        switch( item.getItemId()) {
+            case R.id.version_original : {
+                Log.d(SPLIT_VIEW_DIVIDIR, "Menú Original.");
+                // Lanzar la versión del Juego Original
+                Intent intent = new Intent(this, MainActivity.class);
+                startActivity(intent);
+            } break;
+            case R.id.version_dividir : {
+                Log.d(SPLIT_VIEW_DIVIDIR, "Menú Dividir.");
+                // Lanzar la versión del Juego Dividir.
+                // Ya estoy en ese juego.
+            } break;
+            default: {
+                Log.d(SPLIT_VIEW_DIVIDIR, String.format("Se ha recibido un ID desconocido: '%1$d'.", item.getItemId()));
+            } break;
+        }
         return super.onOptionsItemSelected(item);
     }
 
@@ -58,7 +76,7 @@ public class SplitView extends AppCompatActivity {
         LinearLayout hijo2 = new LinearLayout(this);
         hijo2.setId( newId());
         if ( padre.getOrientation() == LinearLayout.VERTICAL) {
-            Log.d("SplitView_dividir", "Vertical");
+            Log.d(SPLIT_VIEW_DIVIDIR, "Vertical");
 //        android:layout_width="match_parent"
 //        android:layout_height="0dp"
 //        android:layout_weight="1"
@@ -71,7 +89,7 @@ public class SplitView extends AppCompatActivity {
             hijo2.setOrientation( LinearLayout.HORIZONTAL);
             hijo2.setLayoutParams(parametros);
         } else {
-            Log.d("SplitView_dividir", "Horizontal");
+            Log.d(SPLIT_VIEW_DIVIDIR, "Horizontal");
 //            android:layout_width="0dp"
 //            android:layout_height="match_parent"
 //            android:layout_weight="1"

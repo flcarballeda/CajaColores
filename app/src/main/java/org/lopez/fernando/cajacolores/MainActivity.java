@@ -17,6 +17,7 @@ import java.util.Date;
 
 public class MainActivity extends AppCompatActivity {
 
+    public static final String MYAPP = "MYAPP";
     private int negro;
     private int veces;
     private long inicio;
@@ -37,8 +38,25 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        switch( item.getItemId()) {
+            case R.id.version_original : {
+                Log.d(MYAPP, "Menú Original.");
+                // Lanzar la versión del Juego Original
+                // Ya estoy en ese juego.
+            } break;
+            case R.id.version_dividir : {
+                Log.d(MYAPP, "Menú Dividir.");
+                // Lanzar la versión del Juego Dividir.
+                Intent intent = new Intent(this, SplitView.class);
+                startActivity(intent);
+            } break;
+            default: {
+                Log.d(MYAPP, String.format("Se ha recibido un ID desconocido: '%1$d'.", item.getItemId()));
+            } break;
+        }
         return super.onOptionsItemSelected(item);
     }
+
 
     public void cambiarColor(View view) {
         LinearLayout linear = (LinearLayout) view;
@@ -54,7 +72,7 @@ public class MainActivity extends AppCompatActivity {
         if (this.veces == 6) {
             long ahora = System.currentTimeMillis();
             String mensaje = String.format( "Ha tardado %1$.3f segundos.", ((ahora - inicio) / 1000f));
-            Log.d("MYAPP", mensaje);
+            Log.d(MYAPP, mensaje);
             Toast toast = Toast.makeText( this, mensaje, Toast.LENGTH_LONG);
             toast.show();
 
