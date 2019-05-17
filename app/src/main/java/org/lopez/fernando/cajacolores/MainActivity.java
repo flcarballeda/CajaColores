@@ -40,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(this, SplitView.class);
             startActivity(intent);
 
-//            salir();
+            salir();
         }
     }
 
