@@ -94,6 +94,11 @@ public class SplitView extends AppCompatActivity {
                 startActivity(intent);
             }
             break;
+            case R.id.configuracion: {
+                Log.d(SPLIT_VIEW_DIVIDIR, "Menú Configuración.");
+                // Lanzar la configuración del juego.
+            }
+            break;
             default: {
                 Log.d(SPLIT_VIEW_DIVIDIR, String.format("Se ha recibido un ID desconocido: '%1$d'.", item.getItemId()));
             }

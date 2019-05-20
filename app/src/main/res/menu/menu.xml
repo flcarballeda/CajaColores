@@ -10,4 +10,8 @@
         android:id="@+id/version_dividir"
         app:showAsAction="always"
         android:icon="@drawable/ic_line_style_black_24dp"/>
+    <item android:title="Configuración"
+        android:id="@+id/configuracion"
+        app:showAsAction="always"
+        android:icon="@drawable/ic_settings_black_24dp"/>
 </menu>

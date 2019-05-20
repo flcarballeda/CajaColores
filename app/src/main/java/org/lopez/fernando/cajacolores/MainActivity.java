@@ -53,6 +53,11 @@ public class MainActivity extends AppCompatActivity {
                 this.finish();
                 startActivity(intent);
             } break;
+            case R.id.configuracion: {
+                Log.d(MYAPP, "Menú Configuración.");
+                // Lanzar la configuración del juego.
+            }
+            break;
             default: {
                 Log.d(MYAPP, String.format("Se ha recibido un ID desconocido: '%1$d'.", item.getItemId()));
             } break;
