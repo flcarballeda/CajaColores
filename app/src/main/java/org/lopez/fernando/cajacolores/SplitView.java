@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 public class SplitView extends AppCompatActivity {
@@ -71,62 +72,12 @@ public class SplitView extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    //
     public void dividir(View view) {
         LinearLayout padre = (LinearLayout) view;
         int size = Math.min(view.getWidth(), view.getHeight());
         if (48 < size && 50 > cuenta) {
-//        LinearLayout padre = (LinearLayout)findViewById( view.getId());
-            LinearLayout hijo1 = new LinearLayout(this);
-            hijo1.setId(newId());
-            LinearLayout hijo2 = new LinearLayout(this);
-            hijo2.setId(newId());
-            if (padre.getOrientation() == LinearLayout.VERTICAL) {
-                Log.d(SPLIT_VIEW_DIVIDIR, "Vertical");
-//        android:layout_width="match_parent"
-//        android:layout_height="0dp"
-//        android:layout_weight="1"
-                LinearLayout.LayoutParams parametros = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 0, 1F);
-
-//        android:orientation="horizontal"
-                hijo1.setOrientation(LinearLayout.HORIZONTAL);
-                hijo1.setLayoutParams(parametros);
-
-                hijo2.setOrientation(LinearLayout.HORIZONTAL);
-                hijo2.setLayoutParams(parametros);
-            } else {
-                Log.d(SPLIT_VIEW_DIVIDIR, "Horizontal");
-//            android:layout_width="0dp"
-//            android:layout_height="match_parent"
-//            android:layout_weight="1"
-                LinearLayout.LayoutParams parametros = new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.MATCH_PARENT, 1F);
-
-//        android:orientation="vertical"
-                hijo1.setOrientation(LinearLayout.VERTICAL);
-                hijo1.setLayoutParams(parametros);
-
-                hijo2.setOrientation(LinearLayout.VERTICAL);
-                hijo2.setLayoutParams(parametros);
-            }
-            hijo1.setOnClickListener(new View.OnClickListener() {
-                public void onClick(View v) {
-                    dividir(v);
-                }
-            });
-            hijo2.setOnClickListener(new View.OnClickListener() {
-                public void onClick(View v) {
-                    dividir(v);
-                }
-            });
-            hijo1.setBackgroundColor(((ColorDrawable) padre.getBackground()).getColor());
-            hijo2.setBackgroundColor(getResources().getColor(COLORES[indexColor]));
-            hijo1.setVisibility(View.VISIBLE);
-            hijo2.setVisibility(View.VISIBLE);
-            indexColor++;
-            if (indexColor == COLORES.length) {
-                indexColor = 0;
-            }
-            padre.addView(hijo1);
-            padre.addView(hijo2);
+            addHijos(padre);
             cuenta++;
             Toast toast = Toast.makeText(this, String.format("Quedan '%1$d' cuadros", (50 - cuenta)), Toast.LENGTH_SHORT);
             toast.show();
@@ -136,6 +87,90 @@ public class SplitView extends AppCompatActivity {
                 toast.show();
             }
         }
+        recorreVista();
+    }
+
+    // Añade dos hijos al LinearLayout que recibe.
+    private void addHijos(LinearLayout padre) {
+        LinearLayout hijo1 = newHijo(padre.getOrientation());
+        LinearLayout hijo2 = newHijo(padre.getOrientation());
+
+        hijo1.setBackgroundColor(((ColorDrawable) padre.getBackground()).getColor());
+        hijo2.setBackgroundColor(getResources().getColor(COLORES[indexColor]));
+        indexColor++;
+        if (indexColor == COLORES.length) {
+            indexColor = 0;
+        }
+        padre.addView(hijo1);
+        padre.addView(hijo2);
+    }
+
+    // Crea un hijo para añadir cambiando la orientación.
+    private LinearLayout newHijo(int orientacion) {
+        LinearLayout hijo1 = new LinearLayout(this);
+        hijo1.setId(newId());
+        if (orientacion == LinearLayout.VERTICAL) {
+            Log.d(SPLIT_VIEW_DIVIDIR, "Vertical");
+//        android:layout_width="match_parent"
+//        android:layout_height="0dp"
+//        android:layout_weight="1"
+            LinearLayout.LayoutParams parametros = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 0, 1F);
+
+//        android:orientation="horizontal"
+            hijo1.setOrientation(LinearLayout.HORIZONTAL);
+            hijo1.setLayoutParams(parametros);
+        } else {
+            Log.d(SPLIT_VIEW_DIVIDIR, "Horizontal");
+//            android:layout_width="0dp"
+//            android:layout_height="match_parent"
+//            android:layout_weight="1"
+            LinearLayout.LayoutParams parametros = new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.MATCH_PARENT, 1F);
+
+//        android:orientation="vertical"
+            hijo1.setOrientation(LinearLayout.VERTICAL);
+            hijo1.setLayoutParams(parametros);
+        }
+        hijo1.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                dividir(v);
+            }
+        });
+        hijo1.setVisibility(View.VISIBLE);
+        return hijo1;
+    }
+
+    private void recorreVista() {
+        LinearLayout padre = (LinearLayout) findViewById(R.id.root);
+        // Create an empty queues for simultaneous traversals
+        ArrayList<LinearLayout> recorridos = new ArrayList<>();
+        ArrayList<LinearLayout> pendientes = new ArrayList<>();
+
+        // Enqueue Roots of trees in respective queues
+        pendientes.add(padre);
+        boolean adds;
+        do { // ¿ O log O ?
+            adds = false;
+            LinearLayout current = null;
+            // Busca el siguiente nodo pendiente de recorrer
+            while (null == current && pendientes.size() > 0) {
+                current = pendientes.remove( 0);
+                if( recorridos.contains( current)) {
+                   current = null;
+                } else {
+                    for (int i = 0; i< current.getChildCount(); i++) {
+                        View vistahija = current.getChildAt(i);
+                        if( !recorridos.contains( vistahija) &&
+                             !pendientes.contains( vistahija)) {
+                            pendientes.add( (LinearLayout) vistahija);
+                            adds = true;
+                        }
+                    }
+                    recorridos.add( current);
+                    current = null;
+                }
+            }
+        } while (adds);
+        Log.d( SPLIT_VIEW_DIVIDIR, Integer.toString( recorridos.size()));
     }
 
     /**
@@ -144,7 +179,7 @@ public class SplitView extends AppCompatActivity {
      * no coincide con un ID existente y si no existe devuelvo el nuevo
      * valor.
      *
-     * @return
+     * @return int un entero que se puede utilizar como ID.
      */
     private int newId() {
         int resultado = -1;
