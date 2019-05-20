@@ -122,18 +122,12 @@ public class SplitView extends AppCompatActivity {
 
     // Añade dos hijos al LinearLayout que recibe.
     private void addHijos(LinearLayout padre) {
-        LinearLayout hijo1 = newHijo(padre.getOrientation());
-        LinearLayout hijo2 = newHijo(padre.getOrientation());
-
-        hijo1.setBackgroundColor(((ColorDrawable) padre.getBackground()).getColor());
-        // hijo2.setBackgroundColor(getResources().getColor(COLORES[indexColor]));
-        hijo2.setBackgroundColor( generaColor( ((ColorDrawable) padre.getBackground()).getColor()));
-//        indexColor++;
-//        if (indexColor == COLORES.length) {
-//            indexColor = 0;
-//        }
-        padre.addView(hijo1);
-        padre.addView(hijo2);
+        int numHijos = r.nextInt( 2) + 2; // El numero de hijos está entre 2 y 4
+        for( int i = 0; i < numHijos; i++) {
+            LinearLayout hijo1 = newHijo(padre.getOrientation());
+            hijo1.setBackgroundColor( generaColor( ((ColorDrawable) padre.getBackground()).getColor()));
+            padre.addView(hijo1);
+        }
     }
 
     // Crea un hijo para añadir cambiando la orientación.
