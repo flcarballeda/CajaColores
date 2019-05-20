@@ -2,6 +2,7 @@ package org.lopez.fernando.cajacolores;
 
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
+import android.graphics.Color;
 import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -17,11 +18,12 @@ import java.util.Random;
 
 public class SplitView extends AppCompatActivity {
 
-    private static final int COLORES[] = {R.color.aguamarina, R.color.cian, R.color.dukeBlue, R.color.UCLABlue, R.color.verdeEsmeralda, R.color.black, R.color.white};
+    // private static final int COLORES[] = {R.color.aguamarina, R.color.cian, R.color.dukeBlue, R.color.UCLABlue, R.color.verdeEsmeralda, R.color.black, R.color.white};
     public static final String SPLIT_VIEW_DIVIDIR = "SplitView_dividir";
-    private int indexColor = 0;
+//    private int indexColor = 0;
     private static Random r = new Random();
     private int cuenta;
+    private double DISTANCIA_MINIMA;
 
     // https://github.com/flcarballeda/CajaColores.git
     @Override
@@ -29,8 +31,36 @@ public class SplitView extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_split_view);
         cuenta = 0;
+        DISTANCIA_MINIMA = getDistancia(Color.rgb(0, 0, 0),
+                Color.rgb( 255, 255, 255)) / 4;
     }
 
+    private int generaColor( int colorOriginal) {
+        int nuevoColor = -1;
+        do {
+            int red = r.nextInt( 255);
+            int green = r.nextInt( 255);
+            int blue = r.nextInt( 255);
+            nuevoColor = Color.rgb( red, green, blue);
+        } while (nuevoColor == -1 && (getDistancia(colorOriginal, nuevoColor) < DISTANCIA_MINIMA));
+        return nuevoColor;
+    }
+
+    // Calcula la distancia en el espacio tridimensional considerando los colores como coordenadas.
+    private double getDistancia( int colorOriginal, int colorPropuesto) {
+        // Extrae las componentes RGB de cada color
+        float r1 = Color.red( colorOriginal);
+        float r2 = Color.red( colorPropuesto);
+        float g1 = Color.green( colorOriginal);
+        float g2 = Color.green( colorPropuesto);
+        float b1 = Color.blue( colorOriginal);
+        float b2 = Color.blue( colorPropuesto);
+
+        double redDis = (r1 -r2);
+        double greenDis = (g1 - g2);
+        double blueDis = (b1 -b2);
+        return Math.sqrt( Math.pow( redDis, 2) + Math.pow( greenDis, 2) + Math.pow( blueDis, 2));
+    }
 //    private void salir() {
 //        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
 //            this.finishAffinity();
@@ -96,11 +126,12 @@ public class SplitView extends AppCompatActivity {
         LinearLayout hijo2 = newHijo(padre.getOrientation());
 
         hijo1.setBackgroundColor(((ColorDrawable) padre.getBackground()).getColor());
-        hijo2.setBackgroundColor(getResources().getColor(COLORES[indexColor]));
-        indexColor++;
-        if (indexColor == COLORES.length) {
-            indexColor = 0;
-        }
+        // hijo2.setBackgroundColor(getResources().getColor(COLORES[indexColor]));
+        hijo2.setBackgroundColor( generaColor( ((ColorDrawable) padre.getBackground()).getColor()));
+//        indexColor++;
+//        if (indexColor == COLORES.length) {
+//            indexColor = 0;
+//        }
         padre.addView(hijo1);
         padre.addView(hijo2);
     }
