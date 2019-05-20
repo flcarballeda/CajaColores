@@ -1,5 +1,12 @@
 <resources>
     <string name="app_name">Caja Colores</string>
     <string name="actividad_division">Dividir</string>
-    <string name="actividad_cajaColor">Caja Color</string>
+    <string name="actividad_cajaColor">Colores</string>
+    <string name="actividad_settings">Configuración</string>
+    <string name="play_pause">Jugar / Parar</string>
+    <string name="launch_game">Lanzar el juego</string>
+    <string-array name="spinnerOptions">
+        <item>Dividir</item>
+        <item>Colores</item>
+    </string-array>
 </resources>
