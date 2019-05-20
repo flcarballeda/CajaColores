@@ -183,7 +183,7 @@ public class SplitView extends AppCompatActivity {
                    current = null;
                 } else {
                     for (int i = 0; i< current.getChildCount(); i++) {
-                        View vistahija = current.getChildAt(i);
+                        LinearLayout vistahija = (LinearLayout)current.getChildAt(i);
                         if( !recorridos.contains( vistahija) &&
                              !pendientes.contains( vistahija)) {
                             pendientes.add( (LinearLayout) vistahija);
