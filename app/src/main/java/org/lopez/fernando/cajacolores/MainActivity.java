@@ -79,7 +79,7 @@ public class MainActivity extends AppCompatActivity {
             case R.id.version_dividir: {
                 Log.d(MYAPP, "Menú Dividir.");
                 // Lanzar la versión del Juego Dividir.
-                Intent intent = new Intent(this, SplitView.class);
+                Intent intent = new Intent(this, GetSquareActivity.class);
                 this.finish();
                 startActivity(intent);
             }

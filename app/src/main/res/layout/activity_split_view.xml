@@ -13,4 +13,11 @@
         android:background="@color/white"
         android:onClick="dividir"
         android:orientation="vertical" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/opacarDividir"
+        android:background="@color/opacar"
+        android:orientation="vertical" />
 </FrameLayout>

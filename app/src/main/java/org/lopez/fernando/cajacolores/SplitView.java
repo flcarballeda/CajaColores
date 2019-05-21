@@ -20,9 +20,13 @@ public class SplitView extends AppCompatActivity {
 
     // private static final int COLORES[] = {R.color.aguamarina, R.color.cian, R.color.dukeBlue, R.color.UCLABlue, R.color.verdeEsmeralda, R.color.black, R.color.white};
     public static final String SPLIT_VIEW_DIVIDIR = "SplitView_dividir";
+    private long inicio;
+    private long acumulado;
+    private boolean corriendo;
 //    private int indexColor = 0;
     private static Random r = new Random();
     private int cuenta;
+    private int maxSquare = 50;
     private double DISTANCIA_MINIMA;
 
     // https://github.com/flcarballeda/CajaColores.git
@@ -30,7 +34,21 @@ public class SplitView extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_split_view);
+
+        Intent intent = getIntent();
+        Bundle bd = intent.getExtras();
+        if (bd != null) {
+            maxSquare = bd.getInt(GetSquareActivity.INTENT_PARAMETER_SQUARES, 50);
+        }
+
         cuenta = 0;
+        inicio = -1l;
+        acumulado = 0l;
+        corriendo = true;
+
+        LinearLayout opacar = (LinearLayout) findViewById(R.id.opacarDividir);
+        opacar.setVisibility(View.INVISIBLE);
+
         DISTANCIA_MINIMA = getDistancia(Color.rgb(0, 0, 0),
                 Color.rgb( 255, 255, 255)) / 4;
     }
@@ -78,6 +96,28 @@ public class SplitView extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
+            case R.id.play_pause: {
+                if (corriendo) {
+                    if (-1 != inicio) {
+                        long ahora = System.currentTimeMillis();
+                        Log.d(SPLIT_VIEW_DIVIDIR, "Parar - Acumulado." + Long.toString(acumulado));
+                        acumulado += (ahora - inicio);
+                        Log.d(SPLIT_VIEW_DIVIDIR, "Parar - Acumulado." + Long.toString(acumulado));
+                    }
+                    corriendo = false;
+                    item.setIcon(R.drawable.ic_play_circle_outline_black_24dp);
+                    LinearLayout opacar = (LinearLayout) findViewById(R.id.opacarColores);
+                    opacar.setVisibility(View.VISIBLE);
+                } else {
+                    inicio = System.currentTimeMillis();
+                    corriendo = true;
+                    Log.d(SPLIT_VIEW_DIVIDIR, "Seguir - Acumulado." + Long.toString(acumulado));
+                    item.setIcon(R.drawable.ic_pause_circle_outline_black_24dp);
+                    LinearLayout opacar = (LinearLayout) findViewById(R.id.opacarColores);
+                    opacar.setVisibility(View.INVISIBLE);
+                }
+            }
+            break;
             case R.id.version_original: {
                 Log.d(SPLIT_VIEW_DIVIDIR, "Menú Original.");
                 // Lanzar la versión del Juego Original
@@ -89,7 +129,7 @@ public class SplitView extends AppCompatActivity {
             case R.id.version_dividir: {
                 Log.d(SPLIT_VIEW_DIVIDIR, "Menú Dividir.");
                 // Lanzar la versión del Juego Dividir.
-                Intent intent = new Intent(this, SplitView.class);
+                Intent intent = new Intent(this, GetSquareActivity.class);
                 this.finish();
                 startActivity(intent);
             }
@@ -109,15 +149,26 @@ public class SplitView extends AppCompatActivity {
 
     //
     public void dividir(View view) {
+        if (!corriendo) {
+            return;
+        }
         LinearLayout padre = (LinearLayout) view;
         int size = Math.min(view.getWidth(), view.getHeight());
-        if (48 < size && 50 > cuenta) {
+        if (48 < size && maxSquare > cuenta) {
             addHijos(padre);
             cuenta++;
             Toast toast = Toast.makeText(this, String.format("Quedan '%1$d' cuadros", (50 - cuenta)), Toast.LENGTH_SHORT);
             toast.show();
+            if (-1 == inicio) {
+                inicio = System.currentTimeMillis();
+            }
         } else {
-            if (49 < cuenta) {
+            if ((maxSquare - 1) < cuenta) {
+                long ahora = System.currentTimeMillis();
+                acumulado += (ahora - inicio);
+                Log.d(SPLIT_VIEW_DIVIDIR, "Acumulado." + Long.toString(acumulado));
+                String mensaje = String.format("Ha tardado %1$.3f segundos.", ((acumulado) / 1000f));
+                Log.d(SPLIT_VIEW_DIVIDIR, mensaje);
                 Toast toast = Toast.makeText(this, "Juego terminado.\nYa hay 50 cuadros", Toast.LENGTH_LONG);
                 toast.show();
             }
