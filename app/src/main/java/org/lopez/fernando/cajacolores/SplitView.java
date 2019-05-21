@@ -56,9 +56,9 @@ public class SplitView extends AppCompatActivity {
     private int generaColor( int colorOriginal) {
         int nuevoColor = -1;
         do {
-            int red = r.nextInt( 255);
-            int green = r.nextInt( 255);
-            int blue = r.nextInt( 255);
+            int red = r.nextInt(256);
+            int green = r.nextInt(256);
+            int blue = r.nextInt(256);
             nuevoColor = Color.rgb( red, green, blue);
         } while (nuevoColor == -1 && (getDistancia(colorOriginal, nuevoColor) < DISTANCIA_MINIMA));
         return nuevoColor;
@@ -157,7 +157,7 @@ public class SplitView extends AppCompatActivity {
         if (48 < size && maxSquare > cuenta) {
             addHijos(padre);
             cuenta++;
-            Toast toast = Toast.makeText(this, String.format("Quedan '%1$d' cuadros", (50 - cuenta)), Toast.LENGTH_SHORT);
+            Toast toast = Toast.makeText(this, String.format("Quedan '%1$d' toques", (maxSquare - cuenta)), Toast.LENGTH_SHORT);
             toast.show();
             if (-1 == inicio) {
                 inicio = System.currentTimeMillis();
@@ -169,7 +169,7 @@ public class SplitView extends AppCompatActivity {
                 Log.d(SPLIT_VIEW_DIVIDIR, "Acumulado." + Long.toString(acumulado));
                 String mensaje = String.format("Ha tardado %1$.3f segundos.", ((acumulado) / 1000f));
                 Log.d(SPLIT_VIEW_DIVIDIR, mensaje);
-                Toast toast = Toast.makeText(this, "Juego terminado.\nYa hay 50 cuadros", Toast.LENGTH_LONG);
+                Toast toast = Toast.makeText(this, String.format("Juego terminado.\nYa hay %1$d toques.\nHa tardado %2$.3f segundos.", maxSquare, ((acumulado) / 1000f)), Toast.LENGTH_LONG);
                 toast.show();
             }
         }
@@ -178,7 +178,7 @@ public class SplitView extends AppCompatActivity {
 
     // Añade dos hijos al LinearLayout que recibe.
     private void addHijos(LinearLayout padre) {
-        int numHijos = r.nextInt( 2) + 2; // El numero de hijos está entre 2 y 4
+        int numHijos = r.nextInt(3) + 2; // El numero de hijos está entre 2 y 4
         for( int i = 0; i < numHijos; i++) {
             LinearLayout hijo1 = newHijo(padre.getOrientation());
             hijo1.setBackgroundColor( generaColor( ((ColorDrawable) padre.getBackground()).getColor()));

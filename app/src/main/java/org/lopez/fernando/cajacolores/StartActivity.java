@@ -41,7 +41,7 @@ public class StartActivity extends AppCompatActivity implements AdapterView.OnIt
         int pos = spinner.getSelectedItemPosition();
         switch( pos) {
             case 0 : { // "Dividir"
-                Intent intent = new Intent(this, SplitView.class);
+                Intent intent = new Intent(this, GetSquareActivity.class);
                 this.finish();
                 startActivity(intent);
             } break;
