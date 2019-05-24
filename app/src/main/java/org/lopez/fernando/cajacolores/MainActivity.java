@@ -24,6 +24,7 @@ public class MainActivity extends AppCompatActivity {
     private long inicio;
     private long acumulado;
     private boolean corriendo;
+    private String nombre;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +34,11 @@ public class MainActivity extends AppCompatActivity {
         inicio = -1l;
         acumulado = 0l;
         corriendo = true;
+        Intent intent = getIntent();
+        Bundle bd = intent.getExtras();
+        if (bd != null) {
+            nombre = bd.getString(Constantes.NOM_RECORD_SPLIT, null);
+        }
         LinearLayout opacar = (LinearLayout) findViewById(R.id.opacarColores);
         opacar.setVisibility(View.INVISIBLE);
     }
@@ -120,10 +126,18 @@ public class MainActivity extends AppCompatActivity {
             long ahora = System.currentTimeMillis();
             acumulado += (ahora - inicio);
             Log.d(MYAPP, "Acumulado." + Long.toString(acumulado));
-            String mensaje = String.format("Ha tardado %1$.3f segundos.", ((acumulado) / 1000f));
+            String mensaje = String.format(getResources().getString(R.string.messageLongTime), ((acumulado) / 1000f));
             Log.d(MYAPP, mensaje);
             Toast toast = Toast.makeText(this, mensaje, Toast.LENGTH_LONG);
             toast.show();
+            UserPreferences up = new UserPreferences(this);
+            UserPreferences.Datos datos = up.getCajacoloresRecord();
+            if (null != datos) {
+                if (datos.getTime() <= acumulado) {
+                    return;
+                }
+            }
+            up.setCajacoloresRecord(nombre, acumulado);
         }
     }
 

@@ -9,7 +9,10 @@ import android.view.View;
 import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
+
 /**
  * 1 Hacer una actividad inicial para que con un SPINNER para que se elija la modalidad que quieres jugar
  * 2 Crear una actividad previa a la modalidad "FER" para seleccionar el número de toques antes de entrar. Usar un NumberPicker
@@ -38,16 +41,20 @@ public class StartActivity extends AppCompatActivity implements AdapterView.OnIt
     }
 
     public void launchGame( View view) {
+        EditText editText = findViewById(R.id.editTextNombreJugador);
+        if (editText.getText().toString().trim().isEmpty()) {
+            return;
+        }
         int pos = spinner.getSelectedItemPosition();
         switch( pos) {
             case 0 : { // "Dividir"
                 Intent intent = new Intent(this, GetSquareActivity.class);
-                this.finish();
+                intent.putExtra(Constantes.NOM_RECORD_SPLIT, editText.getText().toString());
                 startActivity(intent);
             } break;
             case 1 : { // "Colores"
                 Intent intent = new Intent(this, MainActivity.class);
-                this.finish();
+                intent.putExtra(Constantes.NOM_RECORD_CAJACOLORES, editText.getText().toString());
                 startActivity(intent);
             } break;
             default: { // Upss no se porque pasa por aquí
@@ -59,6 +66,29 @@ public class StartActivity extends AppCompatActivity implements AdapterView.OnIt
     @Override
     public void onItemSelected(AdapterView<?> parent, View view,
                                   int pos, long id) {
+        UserPreferences up = new UserPreferences(this);
+        UserPreferences.Datos datos;
+        switch (pos) {
+            case 0: {
+                datos = up.getSplitRecord();
+            }
+            break;
+            case 1: {
+                datos = up.getCajacoloresRecord();
+            }
+            break;
+            default: {
+                return;
+            } // break;
+        }
+        if (null == datos) {
+            return;
+        }
+        String time = String.format(getResources().getString(R.string.messageShortTime), ((datos.getTime()) / 1000f));
+        TextView nombre = findViewById(R.id.labelNombre);
+        nombre.setText(datos.getNombre());
+        TextView tiempo = findViewById(R.id.labelRecord);
+        tiempo.setText(time);
     }
 
     @Override

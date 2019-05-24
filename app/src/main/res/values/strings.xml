@@ -5,6 +5,10 @@
     <string name="actividad_settings">Configuración</string>
     <string name="play_pause">Jugar / Parar</string>
     <string name="launch_game">Lanzar el juego</string>
+    <string name="userName">Nombre:</string>
+    <string name="hintUserName">Apodo</string>
+    <string name="messageLongTime">Ha tardado %1$.3f segundos.</string>
+    <string name="messageShortTime">%1$.3f seg.</string>
     <string-array name="spinnerOptions">
         <item>Dividir</item>
         <item>Colores</item>

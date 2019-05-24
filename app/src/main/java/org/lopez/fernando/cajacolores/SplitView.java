@@ -27,6 +27,7 @@ public class SplitView extends AppCompatActivity {
     private static Random r = new Random();
     private int cuenta;
     private int maxSquare = 50;
+    private String nombre;
     private double DISTANCIA_MINIMA;
 
     // https://github.com/flcarballeda/CajaColores.git
@@ -38,7 +39,8 @@ public class SplitView extends AppCompatActivity {
         Intent intent = getIntent();
         Bundle bd = intent.getExtras();
         if (bd != null) {
-            maxSquare = bd.getInt(GetSquareActivity.INTENT_PARAMETER_SQUARES, 50);
+            maxSquare = bd.getInt(Constantes.INTENT_PARAMETER_SQUARES, 50);
+            nombre = bd.getString(Constantes.NOM_RECORD_SPLIT, null);
         }
 
         cuenta = 0;
@@ -106,14 +108,14 @@ public class SplitView extends AppCompatActivity {
                     }
                     corriendo = false;
                     item.setIcon(R.drawable.ic_play_circle_outline_black_24dp);
-                    LinearLayout opacar = (LinearLayout) findViewById(R.id.opacarColores);
+                    LinearLayout opacar = (LinearLayout) findViewById(R.id.opacarDividir);
                     opacar.setVisibility(View.VISIBLE);
                 } else {
                     inicio = System.currentTimeMillis();
                     corriendo = true;
                     Log.d(SPLIT_VIEW_DIVIDIR, "Seguir - Acumulado." + Long.toString(acumulado));
                     item.setIcon(R.drawable.ic_pause_circle_outline_black_24dp);
-                    LinearLayout opacar = (LinearLayout) findViewById(R.id.opacarColores);
+                    LinearLayout opacar = (LinearLayout) findViewById(R.id.opacarDividir);
                     opacar.setVisibility(View.INVISIBLE);
                 }
             }
@@ -167,13 +169,21 @@ public class SplitView extends AppCompatActivity {
                 long ahora = System.currentTimeMillis();
                 acumulado += (ahora - inicio);
                 Log.d(SPLIT_VIEW_DIVIDIR, "Acumulado." + Long.toString(acumulado));
-                String mensaje = String.format("Ha tardado %1$.3f segundos.", ((acumulado) / 1000f));
+                String mensaje = String.format(getResources().getString(R.string.messageLongTime), ((acumulado) / 1000f));
                 Log.d(SPLIT_VIEW_DIVIDIR, mensaje);
                 Toast toast = Toast.makeText(this, String.format("Juego terminado.\nYa hay %1$d toques.\nHa tardado %2$.3f segundos.", maxSquare, ((acumulado) / 1000f)), Toast.LENGTH_LONG);
                 toast.show();
+                UserPreferences up = new UserPreferences(this);
+                UserPreferences.Datos datos = up.getSplitRecord();
+                if (null != datos) {
+                    if (datos.getTime() <= acumulado) {
+                        return;
+                    }
+                }
+                up.setSplitRecord(nombre, acumulado);
             }
         }
-        recorreVista();
+//        recorreVista();
     }
 
     // Añade dos hijos al LinearLayout que recibe.

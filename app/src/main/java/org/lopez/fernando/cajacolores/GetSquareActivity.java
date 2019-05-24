@@ -8,9 +8,7 @@ import android.view.View;
 import android.widget.NumberPicker;
 
 public class GetSquareActivity extends AppCompatActivity {
-
-    public static final String INTENT_PARAMETER_SQUARES = "IntentParameterSquares";
-
+    private String nombre;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -19,13 +17,21 @@ public class GetSquareActivity extends AppCompatActivity {
 
         numbers.setMinValue(30);
         numbers.setMaxValue(100);
-        numbers.setValue(50);
+        UserPreferences up = new UserPreferences(this);
+        numbers.setValue(up.getSplitTokes());
+        Intent intent = getIntent();
+        Bundle bd = intent.getExtras();
+        if (bd != null) {
+            nombre = bd.getString(Constantes.NOM_RECORD_SPLIT, null);
+        }
     }
 
     public void onClick(View view) {
         NumberPicker numbers = findViewById(R.id.numberSquares);
         Intent intent = new Intent(this, SplitView.class);
-        intent.putExtra(INTENT_PARAMETER_SQUARES, numbers.getValue());
+        intent.putExtra(Constantes.INTENT_PARAMETER_SQUARES, numbers.getValue());
+        UserPreferences up = new UserPreferences(this);
+        up.setSplitTokes(numbers.getValue());
         this.finish();
         this.startActivity(intent);
     }
