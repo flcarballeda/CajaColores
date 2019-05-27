@@ -3,6 +3,7 @@ package org.lopez.fernando.cajacolores;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.Color;
+import android.media.MediaPlayer;
 import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -181,9 +182,17 @@ public class SplitView extends AppCompatActivity {
                     }
                 }
                 up.setSplitRecord(nombre, acumulado);
+                soundScore();
             }
         }
 //        recorreVista();
+    }
+
+    private void soundScore() {
+        MediaPlayer mp = MediaPlayer.create(this, R.raw.record);
+        mp.setLooping(false);
+        mp.setVolume(100, 100);
+        mp.start();
     }
 
     // Añade dos hijos al LinearLayout que recibe.

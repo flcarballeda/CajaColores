@@ -3,6 +3,7 @@ package org.lopez.fernando.cajacolores;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.media.MediaPlayer;
 import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -138,7 +139,15 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
             up.setCajacoloresRecord(nombre, acumulado);
+            soundScore();
         }
+    }
+
+    private void soundScore() {
+        MediaPlayer mp = MediaPlayer.create(this, R.raw.record);
+        mp.setLooping(false);
+        mp.setVolume(100, 100);
+        mp.start();
     }
 
     private void salir() {
