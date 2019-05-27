@@ -37,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = getIntent();
         Bundle bd = intent.getExtras();
         if (bd != null) {
-            nombre = bd.getString(Constantes.NOM_RECORD_SPLIT, null);
+            nombre = bd.getString(Constantes.NOM_RECORD_CAJACOLORES, null);
         }
         LinearLayout opacar = (LinearLayout) findViewById(R.id.opacarColores);
         opacar.setVisibility(View.INVISIBLE);

@@ -65,7 +65,11 @@ public class StartActivity extends AppCompatActivity implements AdapterView.OnIt
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view,
-                                  int pos, long id) {
+                               int pos, long id) {
+        refrescaRecord(pos);
+    }
+
+    public void refrescaRecord(int pos) {
         UserPreferences up = new UserPreferences(this);
         UserPreferences.Datos datos;
         switch (pos) {
@@ -94,5 +98,12 @@ public class StartActivity extends AppCompatActivity implements AdapterView.OnIt
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
 
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        int pos = spinner.getSelectedItemPosition();
+        refrescaRecord(pos);
     }
 }

@@ -159,8 +159,8 @@ public class SplitView extends AppCompatActivity {
         if (48 < size && maxSquare > cuenta) {
             addHijos(padre);
             cuenta++;
-            Toast toast = Toast.makeText(this, String.format("Quedan '%1$d' toques", (maxSquare - cuenta)), Toast.LENGTH_SHORT);
-            toast.show();
+//            Toast toast = Toast.makeText(this, String.format("Quedan '%1$d' toques", (maxSquare - cuenta)), Toast.LENGTH_SHORT);
+//            toast.show();
             if (-1 == inicio) {
                 inicio = System.currentTimeMillis();
             }

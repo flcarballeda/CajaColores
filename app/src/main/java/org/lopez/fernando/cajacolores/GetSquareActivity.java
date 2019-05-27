@@ -30,6 +30,7 @@ public class GetSquareActivity extends AppCompatActivity {
         NumberPicker numbers = findViewById(R.id.numberSquares);
         Intent intent = new Intent(this, SplitView.class);
         intent.putExtra(Constantes.INTENT_PARAMETER_SQUARES, numbers.getValue());
+        intent.putExtra(Constantes.NOM_RECORD_SPLIT, nombre);
         UserPreferences up = new UserPreferences(this);
         up.setSplitTokes(numbers.getValue());
         this.finish();
