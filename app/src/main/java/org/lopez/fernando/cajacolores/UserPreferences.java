@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
+import java.util.Date;
+
 public class UserPreferences {
     private SharedPreferences preferences;
 
@@ -15,6 +17,8 @@ public class UserPreferences {
         SharedPreferences.Editor editor = preferences.edit();
         editor.putString(Constantes.NOM_RECORD_CAJACOLORES, nombre);
         editor.putLong(Constantes.DATA_RECORD_CAJACOLORES, tiempo);
+        Puntuacion score = new Puntuacion("CAJACOLORES", nombre, new Date(), tiempo);
+        editor.putString(Constantes.JSON_RECORD_CAJACOLORES, score.toJsonString());
         editor.commit();
     }
 
@@ -22,6 +26,8 @@ public class UserPreferences {
         SharedPreferences.Editor editor = preferences.edit();
         editor.putString(Constantes.NOM_RECORD_SPLIT, nombre);
         editor.putLong(Constantes.DATA_RECORD_SPLIT, tiempo);
+        Puntuacion score = new Puntuacion("SPLIT", nombre, new Date(), tiempo);
+        editor.putString(Constantes.JSON_RECORD_SPLIT, score.toJsonString());
         editor.commit();
     }
 
