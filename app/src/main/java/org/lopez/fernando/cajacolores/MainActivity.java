@@ -1,7 +1,6 @@
 package org.lopez.fernando.cajacolores;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.media.MediaPlayer;
 import android.os.Build;
@@ -11,11 +10,8 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.Toast;
-
-import java.util.Date;
 
 public class MainActivity extends AppCompatActivity {
 

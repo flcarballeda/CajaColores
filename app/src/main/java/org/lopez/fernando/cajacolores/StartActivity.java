@@ -4,14 +4,16 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.MenuItem;
 import android.view.View;
-import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
+
+import com.google.gson.Gson;
+
+import java.util.ArrayList;
 
 /**
  * 1 Hacer una actividad inicial para que con un SPINNER para que se elija la modalidad que quieres jugar
@@ -24,6 +26,7 @@ import android.widget.TextView;
 public class StartActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
     private Spinner spinner;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,6 +41,13 @@ public class StartActivity extends AppCompatActivity implements AdapterView.OnIt
         // Apply the adapter to the spinner
         spinner.setAdapter(adapter);
         spinner.setOnItemSelectedListener( this);
+        /**
+         * Ejemplo del uso de Gson para procesar el json de la listas de partidas o puntuaciones.
+         Gson gson = new Gson();
+         String json_data = "[{ \"juego\"=\"SPLIT\",\"nombre\"=\"carby\",\"fecha\"=\"2019-05-29\",\"tiempo\"=2356},{ \"juego\"=\"CAJACOLORES\",\"nombre\"=\"carby\",\"fecha\"=\"2019-05-29\",\"tiempo\"=22356}]";
+         ArrayList<Puntuacion> resultados = gson.fromJson(json_data, ArrayList.class);
+         Log.d("MYAPP", Integer.toString( resultados.size()));
+         */
     }
 
     public void launchGame( View view) {
